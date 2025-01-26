@@ -1,0 +1,239 @@
+name: ddev-wordpress-ddev-composer
+networks:
+    ddev_default:
+        external: true
+        name: ddev_default
+    default:
+        labels:
+            com.ddev.platform: ddev
+        name: ddev-wordpress-ddev-composer_default
+services:
+    db:
+        build:
+            args:
+                BASE_IMAGE: ddev/ddev-dbserver-mysql-8.0:v1.24.2
+                gid: "1000"
+                uid: "1000"
+                username: luishuacho
+            context: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev/.dbimageBuild
+            dockerfile: Dockerfile
+        cap_add:
+            - SYS_NICE
+        command: []
+        container_name: ddev-wordpress-ddev-composer-db
+        environment:
+            BITNAMI_VOLUME_DIR: /bitnami/mysql
+            COLUMNS: "182"
+            DDEV_DATABASE: mysql:8.0
+            DDEV_DATABASE_FAMILY: mysql
+            DDEV_GOARCH: amd64
+            DDEV_GOOS: linux
+            DDEV_HOSTNAME: wordpress-ddev-composer.ddev.site
+            DDEV_PHP_VERSION: "8.2"
+            DDEV_PRIMARY_URL: https://wordpress-ddev-composer.ddev.site
+            DDEV_PROJECT: wordpress-ddev-composer
+            DDEV_PROJECT_TYPE: wordpress
+            DDEV_ROUTER_HTTP_PORT: "80"
+            DDEV_ROUTER_HTTPS_PORT: "443"
+            DDEV_SITENAME: wordpress-ddev-composer
+            DDEV_TLD: ddev.site
+            DOCKER_IP: 127.0.0.1
+            HOST_DOCKER_INTERNAL_IP: ""
+            IS_DDEV_PROJECT: "true"
+            LINES: "11"
+            MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/wordpress-ddev-composer-db/mysql_history
+            PAGER: less -SFX
+            PGDATABASE: db
+            PGHOST: 127.0.0.1
+            PGPASSWORD: db
+            PGUSER: db
+            POSTGRES_DB: db
+            POSTGRES_PASSWORD: db
+            POSTGRES_USER: db
+            TZ: America/Lima
+            USER: luishuacho
+        healthcheck:
+            interval: 1s
+            retries: 70
+            start_interval: 1s
+            start_period: 2m0s
+            timeout: 1m10s
+        hostname: wordpress-ddev-composer-db
+        image: ddev/ddev-dbserver-mysql-8.0:v1.24.2-wordpress-ddev-composer-built
+        labels:
+            com.ddev.app-type: wordpress
+            com.ddev.approot: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer
+            com.ddev.platform: ddev
+            com.ddev.site-name: wordpress-ddev-composer
+        networks:
+            ddev_default: null
+            default: null
+        ports:
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 3306
+        restart: "no"
+        stop_grace_period: 1m0s
+        user: 1000:1000
+        volumes:
+            - source: database
+              target: /var/lib/mysql
+              type: volume
+              volume:
+                nocopy: true
+            - bind:
+                create_host_path: true
+              source: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev
+              target: /mnt/ddev_config
+              type: bind
+            - bind:
+                create_host_path: true
+              source: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev/db_snapshots
+              target: /mnt/snapshots
+              type: bind
+            - source: ddev-global-cache
+              target: /mnt/ddev-global-cache
+              type: volume
+              volume: {}
+        working_dir: /home/luishuacho
+    web:
+        build:
+            args:
+                BASE_IMAGE: ddev/ddev-webserver:v1.24.2
+                DDEV_DATABASE: mysql:8.0
+                DDEV_PHP_VERSION: "8.2"
+                gid: "1000"
+                uid: "1000"
+                username: luishuacho
+            context: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev/.webimageBuild
+            dockerfile: Dockerfile
+        cap_add:
+            - SYS_PTRACE
+        command:
+            - /pre-start.sh
+        container_name: ddev-wordpress-ddev-composer-web
+        environment:
+            COLUMNS: "182"
+            COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+            COREPACK_HOME: /mnt/ddev-global-cache/corepack
+            DB_NAME: ""
+            DB_PASSWORD: ""
+            DB_USER: ""
+            DDEV_COMPOSER_ROOT: /var/www/html
+            DDEV_DATABASE: mysql:8.0
+            DDEV_DATABASE_FAMILY: mysql
+            DDEV_DOCROOT: web/wordpress
+            DDEV_FILES_DIR: /var/www/html/web/wordpress/wp-content/uploads
+            DDEV_FILES_DIRS: /var/www/html/web/wordpress/wp-content/uploads
+            DDEV_GOARCH: amd64
+            DDEV_GOOS: linux
+            DDEV_HOSTNAME: wordpress-ddev-composer.ddev.site
+            DDEV_MUTAGEN_ENABLED: "false"
+            DDEV_PHP_VERSION: "8.2"
+            DDEV_PRIMARY_URL: https://wordpress-ddev-composer.ddev.site
+            DDEV_PROJECT: wordpress-ddev-composer
+            DDEV_PROJECT_TYPE: wordpress
+            DDEV_ROUTER_HTTP_PORT: "80"
+            DDEV_ROUTER_HTTPS_PORT: "443"
+            DDEV_SITENAME: wordpress-ddev-composer
+            DDEV_TLD: ddev.site
+            DDEV_VERSION: v1.24.2
+            DDEV_WEB_ENTRYPOINT: /mnt/ddev_config/web-entrypoint.d
+            DDEV_WEBSERVER_TYPE: nginx-fpm
+            DDEV_XDEBUG_ENABLED: "false"
+            DEPLOY_NAME: local
+            DOCKER_IP: 127.0.0.1
+            DOCROOT: web/wordpress
+            DRUSH_OPTIONS_URI: https://wordpress-ddev-composer.ddev.site
+            HOST_DOCKER_INTERNAL_IP: ""
+            HTTP_EXPOSE: 80:80,8025:8025
+            HTTPS_EXPOSE: 443:80,8026:8025
+            IS_DDEV_PROJECT: "true"
+            LINES: "11"
+            MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/wordpress-ddev-composer-web/mysql_history
+            NODE_EXTRA_CA_CERTS: /mnt/ddev-global-cache/mkcert/rootCA.pem
+            PAGER: less -SFX
+            PGDATABASE: db
+            PGHOST: db
+            PGPASSWORD: db
+            PGUSER: db
+            PHP_IDE_CONFIG: serverName=wordpress-ddev-composer.ddev.site
+            SSH_AUTH_SOCK: /home/.ssh-agent/socket
+            START_SCRIPT_TIMEOUT: "30"
+            TZ: America/Lima
+            USER: luishuacho
+            VIRTUAL_HOST: wordpress-ddev-composer.ddev.site
+            WP_CONTENT_DIR: /var/www/html/wp-content
+            WP_CONTENT_URL: https://wordpress-ddev-composer.ddev.site/wp-content
+            WP_ENV: ""
+            WP_ENVIRONMENT_TYPE: local
+            WP_HOME: ""
+            WP_SITEURL: ""
+            npm_config_cache: /mnt/ddev-global-cache/npm
+        external_links:
+            - ddev-router:wordpress-ddev-composer.ddev.site
+        extra_hosts:
+            - host.docker.internal=host-gateway
+        healthcheck:
+            interval: 1s
+            retries: 70
+            start_interval: 1s
+            start_period: 2m0s
+            timeout: 1m10s
+        hostname: wordpress-ddev-composer-web
+        image: ddev/ddev-webserver:v1.24.2-wordpress-ddev-composer-built
+        labels:
+            com.ddev.app-type: wordpress
+            com.ddev.approot: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer
+            com.ddev.platform: ddev
+            com.ddev.site-name: wordpress-ddev-composer
+        networks:
+            ddev_default: null
+            default: null
+        ports:
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 80
+            - host_ip: 127.0.0.1
+              mode: ingress
+              protocol: tcp
+              target: 443
+        restart: "no"
+        user: 1000:1000
+        volumes:
+            - consistency: cached
+              source: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer
+              target: /var/www/html
+              type: bind
+            - bind:
+                create_host_path: true
+              read_only: true
+              source: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev
+              target: /mnt/ddev_config
+              type: bind
+            - bind:
+                create_host_path: true
+              source: /mnt/f5520a9c-4283-4167-a297-1d8e4e97c8c6/KataApps/wordpress-ddev-composer/.ddev/xhprof
+              target: /usr/local/bin/xhprof
+              type: bind
+            - source: ddev-global-cache
+              target: /mnt/ddev-global-cache
+              type: volume
+              volume: {}
+            - source: ddev-ssh-agent_socket_dir
+              target: /home/.ssh-agent
+              type: volume
+              volume: {}
+        working_dir: /var/www/html/
+volumes:
+    database:
+        external: true
+        name: wordpress-ddev-composer-mariadb
+    ddev-global-cache:
+        external: true
+        name: ddev-global-cache
+    ddev-ssh-agent_socket_dir:
+        external: true
+        name: ddev-ssh-agent_socket_dir
