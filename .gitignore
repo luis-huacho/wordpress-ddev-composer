@@ -1,8 +1,13 @@
 # DDEV
 .ddev/
+.ddev/*
 # WordPress
 web/wp-config.php
 web/wp-content/uploads/
+web/wordpress
+web/wordpress/*
+wordpress
+wordpress/*
 # Dependencias
 /vendor/
 /node_modules/
