@@ -1,0 +1,11 @@
+1. ddev config --project-name=nuevo-nombre
+2. ddev describe, el objetivo es ver la url
+3. Actualizar .env.local con la url del item anterior
+4. Añadir a web/wordpress/wp-config.php al iniciar
+
+define('WP_CONTENT_DIR', __DIR__ . '/../../wp-content');
+
+4. ddev composer install
+5. Borrar "wordpress" de web/
+6. Mover wordpress a web/
+7. git update-index --assume-unchanged .ddev/.ddev* .ddev/config.yaml .ddev/.gitignore .env.local # incluir todos los archivos de .ddev que aparezcan en git status

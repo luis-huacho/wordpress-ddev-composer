@@ -27,7 +27,8 @@
     "johnpbloch/wordpress-core-installer": "^1.0 || ^2.0",
     "johnpbloch/wordpress-core": "6.7.1",
     "wpackagist-theme/hello-elementor": "^3.3",
-    "wpackagist-plugin/elementor": "^3.27"
+    "wpackagist-plugin/elementor": "^3.27",
+    "wpackagist-theme/twentytwentyfive": "^1.0"
   },
   "config": {
     "allow-plugins": {

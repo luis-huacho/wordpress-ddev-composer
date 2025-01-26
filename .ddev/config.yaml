@@ -20,8 +20,8 @@ web_environment:
     - DB_USER=${DB_USER}
     - DB_PASSWORD=${DB_PASSWORD}
     - WP_ENV=${WP_ENV}
-    - WP_HOME=${WP_HOME}
-    - WP_SITEURL=${WP_SITEURL}
+    - WP_HOME=${DDEV_PRIMARY_URL}
+    - WP_SITEURL=${DDEV_PRIMARY_URL}
 corepack_enable: false
 
 # Key features of DDEV's config.yaml:
