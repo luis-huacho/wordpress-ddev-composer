@@ -1,0 +1,10 @@
+# .ddev/commands/host/post-start
+#!/bin/bash
+
+# Cargar variables .env en el entorno del host
+set -a
+source .env
+set +a
+
+# Reiniciar servicios para aplicar cambios
+ddev restart

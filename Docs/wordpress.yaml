@@ -1,0 +1,28 @@
+  # Copiar este archivo en la carpeta .ddev/nginx_full
+  server {
+    listen 80;
+    listen 443 ssl;
+    
+    root /var/www/html/web/wordpress;
+    
+    # Redirección principal
+    location / {
+    try_files $uri $uri/ /wordpress/index.php?$args;
+    }
+
+    # Reglas específicas de WordPress
+    location ~ \.php$ {
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # Manejo de archivos estáticos
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    expires max;
+    log_not_found off;
+    access_log off;
+    try_files $uri =404;
+    }
+  }

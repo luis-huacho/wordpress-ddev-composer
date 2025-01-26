@@ -8,3 +8,5 @@ web/wp-content/uploads/
 /node_modules/
 # Entorno
 .env
+# Jetbrains
+.idea/
