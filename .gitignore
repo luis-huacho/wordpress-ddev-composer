@@ -8,6 +8,8 @@ web/wordpress
 web/wordpress/*
 wordpress
 wordpress/*
+/wp-content/uploads/
+/wp-content/
 # Dependencias
 /vendor/
 /node_modules/
