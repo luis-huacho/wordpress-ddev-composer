@@ -1,0 +1,10 @@
+# DDEV
+.ddev/
+# WordPress
+web/wp-config.php
+web/wp-content/uploads/
+# Dependencias
+/vendor/
+/node_modules/
+# Entorno
+.env
