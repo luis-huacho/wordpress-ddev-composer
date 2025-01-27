@@ -11,6 +11,8 @@ if (!file_exists($envFile)) {
     die("El archivo de entorno no existe: " . $envFile);
 }
 
+define('WP_CONTENT_DIR', __DIR__ . '/../../wp-content');
+
 // Cargar variables de entorno
 $env = parse_ini_file($envFile);
 
