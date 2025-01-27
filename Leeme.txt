@@ -1,11 +1,27 @@
+Despliegue
+===============
+
 1. ddev config --project-name=nuevo-nombre
-2. ddev describe, el objetivo es ver la url
-3. Actualizar .env.local con la url del item anterior
-4. Añadir a web/wordpress/wp-config.php al iniciar
+2. ddev describe, el objetivo es ver la url. Actualizar, si es necesario, ".env.local" con la url del item anterior
+3. ddev composer install
+4. Borrar "wordpress" de web/
+5. Copiar wordpress a web/: cp wordpress web/
+6. Reemplazar web/wordpress/wp-config.php por web/wp-config.php: cd web/ && cp wp-config.php wordpress/
+7. ddev start
+8. git update-index --assume-unchanged .ddev/.ddev* .ddev/config.yaml .ddev/.gitignore .env.local
 
-define('WP_CONTENT_DIR', __DIR__ . '/../../wp-content');
+Backup
+===============
+ddev export-db --file=backup.sql
+tar -czvf uploads.tar.gz -C wp-content/ uploads
 
-4. ddev composer install
-5. Borrar "wordpress" de web/
-6. Mover wordpress a web/
-7. git update-index --assume-unchanged .ddev/.ddev* .ddev/config.yaml .ddev/.gitignore .env.local # incluir todos los archivos de .ddev que aparezcan en git status
+Importación
+===============
+ddev import-db --src=backup.sql
+ddev import-files --src=uploads.tar.gz
+
+Renombrar URL
+===============
+ddev wp option get siteurl
+ddev wp search-replace 'https://url-antigua.com' 'https://url-nueva.ddev.site'
+ddev wp cache flush
